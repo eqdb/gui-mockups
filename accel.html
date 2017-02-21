@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="favicon.ico">
+        <title>Centripetal Acceleration</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+        <!-- KaTeX source -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js"></script>
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i">
+
+        <!-- some styles -->
+        <style>
+            body {
+                margin: 0;
+                padding-top: 2em;
+                padding-bottom: 5em;
+                background: #fdfdfd;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            #logo {
+                width: 20em;
+                fill: #333;
+            }
+
+            #breadcrumb > a {
+                color: #2196F3;
+                text-decoration: underline;
+            }
+
+            #summary {
+                text-align: left;
+                display: inline-block;
+                font-family: 'Roboto Slab', serif;
+            }
+
+            #summary > ol {
+                font-size: 1.3em;
+            }
+
+            #summary > ol > li > a {
+                color: #888;
+            }
+
+            tr > td:nth-child(1) .katex-display {
+                text-align: right;
+            }
+
+            tr > td:nth-child(3) .katex-display {
+                text-align: left;
+            }
+
+            h1, h2, h3 {
+                font-family: 'Roboto Slab', serif;
+                color: #222;
+            }
+
+            h3 {
+                margin-top: 3em;
+                font-size: 11pt;
+            }
+
+            tr a {
+                color: #888;
+                border-bottom: 1px dotted #888;
+            }
+
+            .explain {
+                line-height: 2em;
+                color: #888;
+                margin: 1em 0;
+                display: inline-block;
+                font-size: 0.95em;
+            }
+
+            .explain ul {
+                margin: 0;
+                padding: 0;
+                padding-left: 17px;
+                list-style-image: url(list-item.svg);
+            }
+
+            .explain .katex-display {
+                padding: .1em .2em;
+                margin: .0em;
+                display: inline-block;
+            }
+
+            @keyframes focus-equation {
+                from {
+                    background-color: #FFEB3B;
+                }
+                to {
+                    background-color: transparent;
+                }
+            }
+
+            tr:target {
+                animation-name: focus-equation;
+                animation-duration: 2s;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 16">
+                <path d="M2 2v9h6V9H7v1H3V7h2V6H3V3h4v1h1V2zm14 0v1h1v7h-1v1h3c2.479396 0 4-2.0206 4-4.5S21.479396 2 19 2h-1zm2 1h1c1.938956 0 3 1.5611 3 3.5 0 1.939-1.061044 3.5-3 3.5h-1zm6-1v9h3.5c1.37479 0 2.487405-1.1253 2.5-2.5.01105-1.2059-.757689-2.0327-1.618433-2.4006.271667-.2357.618432-.7799.618432-1.5994 0-1.3748-1.12521-2.5-2.5-2.5zm1 1h1.5c.834349 0 1.5.6657 1.5 1.5 0 .8344-.665651 1.5-1.5 1.5H25zm0 4h2.5c.834349 0 1.5.6657 1.5 1.5 0 .8344-.665651 1.5-1.5 1.5H25zM11 3.9992c-1.65093 0-3 1.3491-3 3 0 1.651 1.34907 3 3 3s3-1.349 3-3c0-1.6509-1.34907-3-3-3zm0 1c1.110494 0 2 .8895 2 2s-.889506 2-2 2-2-.8895-2-2 .889506-2 2-2z"/>
+                <path d="M13 3.9991v11.2598l4.197266-1.7988-.394532-.92L14 13.7413V3.9991h-1z"/>
+            </svg>
+            <p id="breadcrumb"><a>Physics</a> &#9585; <a>Classical Mechanics</a> &#9585; <a>Circular Motion</a></p>
+            <h1>Centripetal Acceleration</h2>
+            <div id="summary">
+                <h2>Steps</h2>
+                <ol>
+                    <li><a href="#step1">Position vector</a></li>
+                    <li><a href="#step2">Find velocity vector</a></li>
+                    <li><a href="#step3">Find acceleration vector</a></li>
+                    <li><a href="#step4">Find acceleration magnitude</a></li>
+                </ol>
+            </div>
+        </div>
+        <table width="100%" style="table-layout: fixed;" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="40%">
+                <col width="50">
+                <col>
+            </colgroup>
+            <!-- Position vector -->
+            <tr id="step1">
+                <td colspan="2"></td>
+                <td><h3>1. Position vector</h3></td>
+            </tr>
+            <tr id="vec{p}">
+                <td>$$\vec{p}$$</td>
+                <td>$$=$$</td>
+                <td>$$\left(\begin{matrix}p_x\\p_y\end{matrix}\right)$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Substitute $$p_x=r\cos\theta$$</li>
+                    <li>Substitute $$p_y=r\sin\theta$$</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$r\left(\begin{matrix}\cos\theta\\\sin\theta\end{matrix}\right)$$</td>
+            </tr>
+            <!-- Velocity vector -->
+            <tr id="step2">
+                <td colspan="2"></td>
+                <td><h3>2. Find velocity vector</h3></td>
+            </tr>
+            <tr id="vec{v}">
+                <td>$$\vec{v}$$</td>
+                <td>$$=$$</td>
+                <td>$$\frac{\partial}{\partial t}\vec{p}$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Substitute <a href="#vec{p}">$$\vec{p}$$</a></li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$\frac{\partial}{\partial t}\left(
+                    r\left(\begin{matrix}\cos\theta\\\sin\theta\end{matrix}\right)
+                    \right)$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Simplify (calculus/algebra)</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$r\frac{\partial\theta}{\partial t}
+                    \left(\begin{matrix}
+                        -\sin\theta\\\cos\theta
+                    \end{matrix}\right)$$</td>
+            <!-- Acceleration vector -->
+            <tr id="step3">
+                <td colspan="2"></td>
+                <td><h3>3. Find acceleration vector</h3></td>
+            </tr>
+            <tr id="vec{a}">
+                <td>$$\vec{a}$$</td>
+                <td>$$=$$</td>
+                <td>$$\frac{\partial}{\partial t}\vec{v}$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Substitute <a href="#vec{v}">$$\vec{v}$$</a></li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$\frac{\partial}{\partial t}\left(
+                    r\frac{\partial\theta}{\partial t}
+                    \left(\begin{matrix}
+                        -\sin\theta\\\cos\theta
+                    \end{matrix}\right)
+                    \right)$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Simplify (calculus/algebra)</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$-r\left(\frac{\partial\theta}{\partial t}\right)^2
+                    \left(\begin{matrix}
+                        \cos\theta\\\sin\theta
+                    \end{matrix}\right)$$</td>
+            </tr>
+            <!-- Acceleration magnitude -->
+            <tr id="step4">
+                <td colspan="2"></td>
+                <td><h3>4. Find acceleration magnitude</h3></td>
+            </tr>
+            <tr>
+                <td>$$a$$</td>
+                <td>$$=$$</td>
+                <td>$$\left\lVert\enspace\vec{a}\enspace\right\rVert$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Substitute <a href="#vec{a}">$$\vec{a}$$</a></li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>
+                    $$\left\lVert\enspace -r\left(\frac{\partial\theta}{\partial t}\right)^2
+                    \left(\begin{matrix}
+                        \cos\theta\\\sin\theta
+                    \end{matrix}\right)\enspace\right\rVert$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Simplify (algebra/trigonometry)</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$r\left(\frac{\partial\theta}{\partial t}\right)^2$$</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="explain"><ul>
+                    <li>Substitute $$\frac{\partial\theta}{\partial t}=\frac{v}{r}$$</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>$$=$$</td>
+                <td>$$\frac{v^2}{r}$$</td>
+            </tr>
+        </table>
+
+        <!-- inline equation rendering -->
+        <script>
+          renderMathInElement(document.body);
+        </script>
+    </body>
+</html>
