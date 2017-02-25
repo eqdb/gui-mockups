@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="favicon.ico">
+        <title>Page editor</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+        <!-- KaTeX source -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js"></script>
+
+        <!-- MathQuill dependencies -->
+        <link rel="stylesheet" href="lib/mathquill/mathquill.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="lib/mathquill/mathquill.js"></script>
+
+        <!-- Sortable source -->
+        <script src="lib/Sortable.min.js"></script>
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i">
+
+        <!-- some styles -->
+        <link rel="stylesheet" href="widgets.css">
+        <style>
+            body {
+                margin: 0;
+                padding-top: 2em;
+                padding-bottom: 5em;
+                background: #fdfdfd;
+                color: #333;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            button {
+                font-family: 'Roboto', sans-serif;
+                font-size: 1em;
+            }
+
+            #logo {
+                width: 20em;
+                fill: #333;
+            }
+
+            a {
+                color: #2196F3;
+            }
+
+            #summary {
+                text-align: left;
+                display: inline-block;
+                font-family: 'Roboto Slab', serif;
+            }
+
+            #summary > ol {
+                font-size: 1.3em;
+            }
+
+            #summary > ol > li:active {
+                cursor: move;
+                color: #333;
+                background: #FFEB3B;
+            }
+
+            #summary > ol > li > a {
+                color: #888;
+            }
+
+            tr:not(.no-borders) > td:nth-child(2) {
+                padding-right: 10px;
+                text-align: right;
+                /*border-bottom: 1px dotted;*/
+            }
+
+            /*tr:not(.no-borders) > td:nth-child(3) {
+                border-left: 1px dotted;
+                border-right: 1px dotted;
+            }*/
+
+            tr:not(.no-borders) > td:nth-child(4) {
+                padding-left: 10px;
+                text-align: left;
+                /*border-bottom: 1px dotted;*/
+            }
+
+            input[type=text] {
+                font-family: 'Roboto Slab', serif;
+                font-size: 2em;
+                font-weight: bold;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                line-height: 2em;
+            }
+
+            h1, h2, h3 {
+                font-family: 'Roboto Slab', serif;
+                color: #222;
+            }
+
+            h3 {
+                margin-top: 3em;
+                font-size: 11pt;
+                text-align: center;
+            }
+
+            @keyframes focus-equation {
+                from {
+                    background-color: #FFEB3B;
+                }
+                to {
+                    background-color: transparent;
+                }
+            }
+
+            tr:target {
+                animation-name: focus-equation;
+                animation-duration: 2s;
+            }
+
+            .mathfield {
+                border: none;
+            }
+
+            .annotation {
+                margin-left: 1em;
+                font-style: italic;
+                color: #888;
+            }
+
+            .append-btn {
+                font-size: 1.5em;
+                border: 1px solid #333;
+                display: inline-block;
+                width: 0.8em;
+                height: 0.8em;
+                line-height: 0.8em;
+                text-align: center;
+                border-radius: 50%;
+                padding: 0.1em;
+                margin: .5em .1em;
+                user-select: none;
+            }
+
+            .append-btn:hover {
+                cursor: pointer;
+                background: #333;
+                color: #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 16">
+                <path d="M2 2v9h6V9H7v1H3V7h2V6H3V3h4v1h1V2zm14 0v1h1v7h-1v1h3c2.479396 0 4-2.0206 4-4.5S21.479396 2 19 2h-1zm2 1h1c1.938956 0 3 1.5611 3 3.5 0 1.939-1.061044 3.5-3 3.5h-1zm6-1v9h3.5c1.37479 0 2.487405-1.1253 2.5-2.5.01105-1.2059-.757689-2.0327-1.618433-2.4006.271667-.2357.618432-.7799.618432-1.5994 0-1.3748-1.12521-2.5-2.5-2.5zm1 1h1.5c.834349 0 1.5.6657 1.5 1.5 0 .8344-.665651 1.5-1.5 1.5H25zm0 4h2.5c.834349 0 1.5.6657 1.5 1.5 0 .8344-.665651 1.5-1.5 1.5H25zM11 3.9992c-1.65093 0-3 1.3491-3 3 0 1.651 1.34907 3 3 3s3-1.349 3-3c0-1.6509-1.34907-3-3-3zm0 1c1.110494 0 2 .8895 2 2s-.889506 2-2 2-2-.8895-2-2 .889506-2 2-2z"/>
+                <path d="M13 3.9991v11.2598l4.197266-1.7988-.394532-.92L14 13.7413V3.9991h-1z"/>
+            </svg>
+            <p id="breadcrumb"><a href="derivation.html">View as reader</a> | <a href="#">Submit page</a> | <a href="#">Save draft</a></p>
+            <input type="text" value="Centripetal Acceleration" placeholder="Page title">
+            <div id="summary">
+                <h2>Contents</h2>
+                <ol id="summary-list">
+                    <li><a href="#step1">Position vector</a></li>
+                    <li><a href="#step2">Find velocity vector</a></li>
+                    <li><a href="#step3">Find acceleration vector</a></li>
+                    <li><a href="#step4">Find acceleration magnitude</a></li>
+                </ol>
+                <button>Add definition</button>
+                <button>Add derivation</button>
+                <button>Add illustration</button>
+            </div>
+            <script>
+                var list = document.getElementById('summary-list');
+                Sortable.create(list);
+            </script>
+        </div>
+        <table width="100%" style="table-layout: fixed;" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="200">
+                <col>
+                <col width="30">
+                <col>
+                <col width="200">
+            </colgroup>
+            <!-- Position vector -->
+            <tr id="step1">
+                <td colspan="5"><h3>1. Position vector</h3></td>
+            </tr>
+            <tr id="vec{p}">
+                <td></td>
+                <td><span class="mathfield">\vec{p}</span></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">p_x\cdot\hat{i}+p_y\cdot\hat{j}</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td>
+                    <span class="mathfield">r\left(\cos\theta\cdot\hat{i}+\sin\theta\cdot\hat{j}\right)</span>
+                    <span class="annotation">(rule)</span>
+                </td>
+                <td><a href="#">remove rule</a></td>
+            </tr>
+            <tr class="no-borders">
+                <td colspan="5" style="text-align: center;"><span class="append-btn">+</span></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <button>Rewrite sides</button>
+                </td>
+            </tr>
+            <!-- Velocity vector -->
+            <tr id="step2">
+                <td colspan="5"><h3>2. Find velocity vector</h3></td>
+            </tr>
+            <tr id="vec{v}">
+                <td></td>
+                <td><span class="mathfield">\vec{v}</span></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">\frac{\partial}{\partial t}\vec{p}</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">\frac{\partial}{\partial t}\left(
+                    r\left(\cos\theta\cdot\hat{i}+\sin\theta\cdot\hat{j}\right)\right)</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td>
+                    <span class="mathfield">r\frac{\partial\theta}{\partial t}
+                    \left(-\sin\theta\cdot\hat{i}+\cos\theta\cdot\hat{j}\right)</span>
+                    <span class="annotation">(rule)</span>
+                </td>
+                <td><a href="#">remove rule</a></td>
+            </tr>
+            <tr class="no-borders">
+                <td colspan="5" style="text-align: center;"><span class="append-btn">+</span></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <button>Rewrite sides</button>
+                </td>
+            </tr>
+            <!-- Acceleration vector -->
+            <tr id="step3">
+                <td colspan="5"><h3>3. Find acceleration vector</h3></td>
+            </tr>
+            <tr id="vec{a}">
+                <td></td>
+                <td><span class="mathfield">\vec{a}</span></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">\frac{\partial}{\partial t}\vec{v}</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">\frac{\partial}{\partial t}\left(
+                    r\frac{\partial\theta}{\partial t}
+                    \left(-\sin\theta\cdot\hat{i}+\cos\theta\cdot\hat{j}\right)
+                    \right)</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td>
+                    <span class="mathfield">-r\left(\frac{\partial\theta}{\partial t}\right)^2
+                    \left(\cos\theta\cdot\hat{i}+\sin\theta\cdot\hat{j}\right)</span>
+                    <span class="annotation">(rule)</span>
+                </td>
+                <td><a href="#">remove rule</a></td>
+            </tr>
+            <tr class="no-borders">
+                <td colspan="5" style="text-align: center;"><span class="append-btn">+</span></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <button>Rewrite sides</button>
+                </td>
+            </tr>
+            <!-- Acceleration magnitude -->
+            <tr id="step4">
+                <td colspan="5"><h3>4. Find acceleration magnitude</h3></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><span class="mathfield">a</span></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">\left|\vec{a}\right|</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">\left|-r\left(\frac{\partial\theta}{\partial t}\right)^2
+                    \left(\cos\theta\cdot\hat{i}+\sin\theta\cdot\hat{j}\right)\right|</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td><span class="mathfield">r\left(\frac{\partial\theta}{\partial t}\right)^2</span></td>
+                <td><a href="#">make rule</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>$$=$$</td>
+                <td>
+                    <span class="mathfield">\frac{v^2}{r}</span>
+                    <span class="annotation">(rule)</span>
+                </td>
+                <td><a href="#">remove rule</a></td>
+            </tr>
+            <tr class="no-borders">
+                <td colspan="5" style="text-align: center;"><span class="append-btn">+</span></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <button>Rewrite sides</button>
+                </td>
+            </tr>
+        </table>
+
+        <!-- inline equation rendering -->
+        <script>
+          renderMathInElement(document.body);
+
+          // MathQuill
+          var MQ = MathQuill.getInterface(2);
+          var fields = document.getElementsByClassName('mathfield');
+          for (var i = 0; i < fields.length; i++) {
+              MQ.MathField(fields[i]);
+          }
+        </script>
+    </body>
+</html>
